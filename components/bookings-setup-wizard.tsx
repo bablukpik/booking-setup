@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Sidebar from "@/components/sidebar"
 import Calendar from "@/components/calendar"
 import { Switch } from "@/components/ui/switch"
+import { ButtonPair } from "./custom-ui/button-pair"
 
 export default function BookingsSetupWizard() {
   const [serviceType, setServiceType] = useState("hair-salon")
@@ -111,43 +112,34 @@ export default function BookingsSetupWizard() {
       <Sidebar />
 
       <main className="flex-1 overflow-auto">
-        <div className="min-h-screen p-8">
-          {/* Header */}
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Bookings setup</h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1">
-                  <div className="h-2 w-12 bg-blue-600 rounded"></div>
-                  <div className="h-2 w-12 bg-gray-300 rounded"></div>
-                  <div className="h-2 w-12 bg-gray-300 rounded"></div>
-                </div>
-              </div>
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">STEP 1 / 3</span>
-              <div className="flex gap-2">
-                <Button variant="outline" className="px-6 bg-transparent cursor-pointer">
-                  Cancel
-                </Button>
-                <Button className="gap-2 bg-blue-600 hover:bg-blue-700 cursor-pointer">
-                  Next
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-between border-b border-[#F0F1F2] h-[80px] px-[40px] py-[22px]">
+          <div>
+            <h1 className="text-3xl font-medium text-[#2D3035]">Bookings setup</h1>
           </div>
-
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                <div className="h-[7px] w-12 bg-[#072AC8] rounded-l"></div>
+                <div className="h-[7px] w-12 bg-[#D1D4D7]"></div>
+                <div className="h-[7px] w-12 bg-[#D1D4D7] rounded-r"></div>
+              </div>
+            </div>
+            <span className="text-[10px] leading-[14px] font-medium uppercase align-middle font-label text-[#2D3035] whitespace-nowrap">STEP 1 / 3</span>
+            <ButtonPair primaryLabel="Next" secondaryLabel="Cancel" />
+          </div>
+        </div>
+        <div className="min-h-screen p-8">
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Left Column - Form */}
             <div className="lg:col-span-2 space-y-8">
               {/* Business Details */}
               <Card className="p-6">
-                <h2 className="text-xl font-bold mb-6 text-foreground">Business details</h2>
+                <h2 className="text-xl font-bold mb-6 text-[#2D3035]">Business details</h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-foreground">
+                    <label className="block text-sm font-medium mb-2 text-[#2D3035]">
                       What type of service do you offer?
                     </label>
                     <Select value={serviceType} onValueChange={setServiceType}>
@@ -166,26 +158,25 @@ export default function BookingsSetupWizard() {
 
               {/* Business Hours */}
               <Card className="p-6">
-                <h2 className="text-xl font-bold mb-2 text-foreground">Your business hours</h2>
+                <h2 className="text-xl font-bold mb-2 text-[#2D3035]">Your business hours</h2>
                 <p className="text-sm text-muted-foreground mb-6">When can clients book with you?</p>
 
                 <div className="space-y-0">
                   {days.map((day) => (
                     <div
                       key={day}
-                      className={`flex items-center justify-between py-4 px-0 border-b border-border last:border-b-0 ${
-                        businessHours[day as keyof typeof businessHours].enabled ? "cursor-pointer" : ""
-                      }`}
+                      className={`flex items-center justify-between py-4 px-0 border-b border-border last:border-b-0 ${businessHours[day as keyof typeof businessHours].enabled ? "cursor-pointer" : ""
+                        }`}
                       onClick={() => handleDayClick(day)}
                     >
                       <div className="flex items-center gap-4 flex-1">
                         <Switch
                           checked={businessHours[day as keyof typeof businessHours].enabled}
                           onCheckedChange={() => toggleDay(day)}
-                          className="data-[state=checked]:bg-blue-600"
+                          className="data-[state=checked]:bg-[#072AC8]"
                           onClick={(e) => e.stopPropagation()}
                         />
-                        <span className="font-medium text-foreground text-sm">{day}</span>
+                        <span className="font-medium text-[#2D3035] text-sm">{day}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-sm text-muted-foreground min-w-max">
@@ -204,17 +195,17 @@ export default function BookingsSetupWizard() {
 
               {/* Blackout Dates & Time */}
               <Card className="p-6">
-                <h2 className="text-xl font-bold mb-2 text-foreground">Blackout dates & time</h2>
+                <h2 className="text-xl font-bold mb-2 text-[#2D3035]">Blackout dates & time</h2>
                 <p className="text-sm text-muted-foreground mb-6">
                   Dates you're not available like holidays and special occasions
                 </p>
 
                 <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-                  <button className="text-blue-600 font-semibold text-sm flex items-center gap-2 hover:text-blue-700 cursor-pointer">
+                  <button className="text-[#072AC8] font-semibold text-sm flex items-center gap-2 hover:text-blue-700 cursor-pointer">
                     SET DATES
                     <ChevronRight className="h-4 w-4" />
                   </button>
-                  <p className="text-sm text-blue-600 font-medium mt-1">Select times</p>
+                  <p className="text-sm text-[#072AC8] font-medium mt-1">Select times</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
@@ -223,10 +214,10 @@ export default function BookingsSetupWizard() {
                       key={index}
                       className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full text-sm"
                     >
-                      <span className="text-foreground">{item.date}</span>
+                      <span className="text-[#2D3035]">{item.date}</span>
                       <button
                         onClick={() => removeBlackoutDate(index)}
-                        className="text-muted-foreground hover:text-foreground cursor-pointer"
+                        className="text-muted-foreground hover:text-[#2D3035] cursor-pointer"
                       >
                         <X className="h-4 w-4" />
                       </button>
@@ -241,7 +232,7 @@ export default function BookingsSetupWizard() {
               {/* Day Setup */}
               {selectedDay && businessHours[selectedDay as keyof typeof businessHours].enabled ? (
                 <Card className="p-6">
-                  <h3 className="text-lg font-bold mb-1 text-foreground">{selectedDay}</h3>
+                  <h3 className="text-lg font-bold mb-1 text-[#2D3035]">{selectedDay}</h3>
                   <p className="text-sm text-muted-foreground mb-6">Set opening and closing hours</p>
 
                   <div className="flex gap-3 mb-6">
@@ -271,26 +262,11 @@ export default function BookingsSetupWizard() {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      className="flex-1 bg-transparent cursor-pointer"
-                      onClick={handleCancelHours}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer"
-                      onClick={handleSaveHours}
-                    >
-                      Save
-                    </Button>
-                  </div>
+                  <ButtonPair primaryLabel="Save" secondaryLabel="Cancel" />
                 </Card>
               ) : (
                 <Card className="p-6">
-                  <h3 className="text-lg font-bold mb-1 text-foreground">Select a day</h3>
+                  <h3 className="text-lg font-bold mb-1 text-[#2D3035]">Select a day</h3>
                   <p className="text-sm text-muted-foreground">
                     Click on an enabled day in the business hours section to set its opening and closing hours.
                   </p>
@@ -314,11 +290,11 @@ export default function BookingsSetupWizard() {
                 <div className="flex items-start gap-3 mb-4">
                   <Checkbox
                     checked={partialAvailabilityEnabled}
-                    onCheckedChange={setPartialAvailabilityEnabled}
+                    onCheckedChange={(checked) => setPartialAvailabilityEnabled(!!checked)}
                     className="mt-1"
                   />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-foreground">Set partial availability</h4>
+                    <h4 className="font-semibold text-[#2D3035]">Set partial availability</h4>
                     <p className="text-sm text-muted-foreground">Block out time on a specific day</p>
                   </div>
                 </div>
@@ -352,7 +328,7 @@ export default function BookingsSetupWizard() {
                     </div>
 
                     <div className="pt-2 border-t border-border">
-                      <p className="text-sm font-medium text-foreground">November 24</p>
+                      <p className="text-sm font-medium text-[#2D3035]">November 24</p>
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-sm text-muted-foreground">
                           {partialStartTime} - {partialEndTime}
@@ -368,15 +344,7 @@ export default function BookingsSetupWizard() {
               </Card>
 
               {/* Bottom Save Button */}
-              <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 bg-transparent cursor-pointer">
-                  Cancel
-                </Button>
-                <Button className="flex-1 bg-blue-600 hover:bg-blue-700 cursor-pointer">
-                  Save
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
+              <ButtonPair primaryLabel="Save" secondaryLabel="Cancel" />
             </div>
           </div>
         </div>

@@ -4,15 +4,7 @@ import { ChevronDown } from "lucide-react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { useState } from "react"
 import Image from "next/image"
-
-// Icon component to render SVG icons
-function Icon({ src, alt, className }: { src: string; alt: string; className?: string }) {
-  return (
-    <div className={`flex items-center justify-center ${className || ""}`}>
-      <Image src={src} alt={alt} width={20} height={20} className="w-5 h-5" />
-    </div>
-  )
-}
+import { Icon } from "@/components/custom-ui/icon"
 
 const menuItems = [
   { icon: "/business-assets/icons/home.svg", label: "Home", href: "#", id: "home" },
@@ -79,7 +71,7 @@ export default function Sidebar() {
                   className="w-full flex items-center justify-between px-3 py-2 rounded-md text-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <Icon src={item.icon} alt={item.label} className="h-5 w-5" />
+                    <Icon icon={item.icon} alt={item.label} className="h-5 w-5" />
                     <span className="text-sm font-medium">{item.label}</span>
                   </div>
                   <ChevronDown className={`h-4 w-4 transition-transform ${openSell ? "rotate-180" : ""}`} />
@@ -105,7 +97,7 @@ export default function Sidebar() {
                             }`}
                         >
                           <div className="flex items-center gap-3">
-                            <Icon src={subItem.icon} alt={subItem.label} className="h-5 w-5" />
+                            <Icon icon={subItem.icon} alt={subItem.label} className="h-5 w-5" />
                             <span className="text-sm font-medium">{subItem.label}</span>
                           </div>
                         </button>
@@ -130,7 +122,7 @@ export default function Sidebar() {
                 }`}
             >
               <div className="flex items-center gap-3">
-                <Icon src={item.icon} alt={item.label} className="h-5 w-5" />
+                <Icon icon={item.icon} alt={item.label} className="h-5 w-5" />
                 <span className="text-sm font-medium">{item.label}</span>
               </div>
               {item.hasCollapse && <ChevronDown className="h-4 w-4" />}
@@ -142,11 +134,11 @@ export default function Sidebar() {
       {/* Bottom Menu */}
       <div className="border-t border-border p-2 space-y-1">
         <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer">
-          <Icon src="/business-assets/icons/settings.svg" alt="Settings" className="h-5 w-5" />
+          <Icon icon="/business-assets/icons/settings.svg" alt="Settings" className="h-5 w-5" />
           <span className="text-sm font-medium">Settings</span>
         </button>
         <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer">
-          <Icon src="/business-assets/icons/signout.svg" alt="Sign out" className="h-5 w-5" />
+          <Icon icon="/business-assets/icons/signout.svg" alt="Sign out" className="h-5 w-5" />
           <span className="text-sm font-medium">Sign out</span>
         </button>
       </div>
