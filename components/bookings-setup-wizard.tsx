@@ -10,6 +10,7 @@ import Sidebar from "@/components/sidebar"
 import Calendar from "@/components/calendar"
 import { Switch } from "@/components/ui/switch"
 import { ButtonPair } from "./custom-ui/button-pair"
+import { Icon } from "./custom-ui/icon"
 
 export default function BookingsSetupWizard() {
   const [serviceType, setServiceType] = useState("hair-salon")
@@ -134,32 +135,30 @@ export default function BookingsSetupWizard() {
             {/* Left Column - Form */}
             <div className="lg:col-span-2 space-y-8">
               {/* Business Details */}
-              <Card className="p-6">
-                <h2 className="text-xl font-bold mb-6 text-[#2D3035]">Business details</h2>
+              <Card className="py-0 mb-[50px] gap-0 border-0 shadow-none">
+                <h2 className="mb-5 text-[#2D3035] font-medium text-[23px] leading-[28px] tracking-[-1%]">Business details</h2>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-[#2D3035]">
-                      What type of service do you offer?
-                    </label>
-                    <Select value={serviceType} onValueChange={setServiceType}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="hair-salon">Hair salon - Barbershop - etc</SelectItem>
-                        <SelectItem value="fitness">Fitness Studio</SelectItem>
-                        <SelectItem value="consulting">Consulting</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="">
+                  <label className="block text-[16px] leading-[22px] font-medium mb-3 text-[#2D3035]">
+                    What type of service do you offer?
+                  </label>
+                  <Select value={serviceType} onValueChange={setServiceType}>
+                    <SelectTrigger className="w-full text-[#626974] text-[16px] leading-[22px] font-medium">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="text-[#626974] text-[16px] leading-[22px] font-medium">
+                      <SelectItem value="hair-salon">Hair salon - Barbershop - etc</SelectItem>
+                      <SelectItem value="fitness">Fitness Studio</SelectItem>
+                      <SelectItem value="consulting">Consulting</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </Card>
 
               {/* Business Hours */}
-              <Card className="p-6">
-                <h2 className="text-xl font-bold mb-2 text-[#2D3035]">Your business hours</h2>
-                <p className="text-sm text-muted-foreground mb-6">When can clients book with you?</p>
+              <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
+                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">Your business hours</h2>
+                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">When can clients book with you?</p>
 
                 <div className="space-y-0">
                   {days.map((day) => (
@@ -194,27 +193,30 @@ export default function BookingsSetupWizard() {
               </Card>
 
               {/* Blackout Dates & Time */}
-              <Card className="p-6">
-                <h2 className="text-xl font-bold mb-2 text-[#2D3035]">Blackout dates & time</h2>
-                <p className="text-sm text-muted-foreground mb-6">
-                  Dates you're not available like holidays and special occasions
-                </p>
+              <Card className="py-0 mb-[50px] gap-0 border-0 shadow-none">
+                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">Blackout dates & time</h2>
+                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">Dates you're not available like holidays and special occasions</p>
+
 
                 <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-                  <button className="text-[#072AC8] font-semibold text-sm flex items-center gap-2 hover:text-blue-700 cursor-pointer">
-                    SET DATES
-                    <ChevronRight className="h-4 w-4" />
+                  <div className="flex items-center justify-between">
+                    <button className="text-[#072AC8] font-medium text-[12px] hover:text-blue-700 cursor-pointer">
+                      SET DATES
+                    </button>
+                    <Icon icon="/business-assets/icons/arrow-right.svg" alt="Arrow Right" />
+                  </div>
+                  <button className="text-[#072AC8] font-medium text-[18px] hover:text-blue-700 cursor-pointer">
+                    Select times
                   </button>
-                  <p className="text-sm text-[#072AC8] font-medium mt-1">Select times</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
                   {blackoutDates.map((item, index) => (
                     <div
                       key={index}
-                      className="inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full text-sm"
+                      className="inline-flex items-center gap-2 bg-[#F9FAFC] px-3 py-1 text-sm rounded-full border border-[#D1D4D7]"
                     >
-                      <span className="text-[#2D3035]">{item.date}</span>
+                      <span className="text-[#000000]">{item.date}</span>
                       <button
                         onClick={() => removeBlackoutDate(index)}
                         className="text-muted-foreground hover:text-[#2D3035] cursor-pointer"
