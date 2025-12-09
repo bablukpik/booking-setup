@@ -1,41 +1,48 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { ChevronRight, X, Clock } from "lucide-react"
-import { Card } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import Sidebar from "@/components/sidebar"
-import Calendar from "@/components/calendar"
-import { Switch } from "@/components/ui/switch"
-import { ButtonPair } from "./custom-ui/button-pair"
-import { Icon } from "./custom-ui/icon"
+import { ChevronRight, Clock, X } from 'lucide-react';
+import { useState } from 'react';
+import Calendar from '@/components/calendar';
+import Sidebar from '@/components/sidebar';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { ButtonPair } from './custom-ui/button-pair';
+import { Icon } from './custom-ui/icon';
 
 export default function BookingsSetupWizard() {
-  const [serviceType, setServiceType] = useState("hair-salon")
+  const [serviceType, setServiceType] = useState('hair-salon');
   const [businessHours, setBusinessHours] = useState({
-    Sunday: { enabled: false, start: "9:00 AM", end: "7:00 PM" },
-    Monday: { enabled: true, start: "9:00 AM", end: "7:00 PM" },
-    Tuesday: { enabled: true, start: "9:00 AM", end: "7:00 PM" },
-    Wednesday: { enabled: true, start: "9:00 AM", end: "7:00 PM" },
-    Thursday: { enabled: true, start: "9:00 AM", end: "7:00 PM" },
-    Friday: { enabled: true, start: "9:00 AM", end: "7:00 PM" },
-    Saturday: { enabled: false, start: "9:00 AM", end: "7:00 PM" },
-  })
-  const [selectedDate, setSelectedDate] = useState(24)
-  const [selectedMonth, setSelectedMonth] = useState(11) // November
-  const [selectedYear, setSelectedYear] = useState(2024)
-  const [todayDate] = useState(22) // Add todayDate state for calendar styling
-  const [partialAvailabilityEnabled, setPartialAvailabilityEnabled] = useState(false)
+    Sunday: { enabled: false, start: '9:00 AM', end: '7:00 PM' },
+    Monday: { enabled: true, start: '9:00 AM', end: '7:00 PM' },
+    Tuesday: { enabled: true, start: '9:00 AM', end: '7:00 PM' },
+    Wednesday: { enabled: true, start: '9:00 AM', end: '7:00 PM' },
+    Thursday: { enabled: true, start: '9:00 AM', end: '7:00 PM' },
+    Friday: { enabled: true, start: '9:00 AM', end: '7:00 PM' },
+    Saturday: { enabled: false, start: '9:00 AM', end: '7:00 PM' },
+  });
+  const [selectedDate, setSelectedDate] = useState(24);
+  const [selectedMonth, setSelectedMonth] = useState(11); // November
+  const [selectedYear, setSelectedYear] = useState(2024);
+  const [todayDate] = useState(22); // Add todayDate state for calendar styling
+  const [partialAvailabilityEnabled, setPartialAvailabilityEnabled] =
+    useState(false);
   const [blackoutDates, setBlackoutDates] = useState([
-    { date: "Nov 24, 2024", time: null },
-    { date: "Nov 24, 2024 - 11 AM - 1 PM", time: "11 AM - 1 PM" },
-  ])
-  const [partialStartTime, setPartialStartTime] = useState("11:00 AM")
-  const [partialEndTime, setPartialEndTime] = useState("1:00 PM")
-  const [selectedDay, setSelectedDay] = useState<string | null>("Monday")
-  const [editingStartTime, setEditingStartTime] = useState("9:00 AM")
-  const [editingEndTime, setEditingEndTime] = useState("7:00 PM")
+    { date: 'Nov 24, 2024', time: null },
+    { date: 'Nov 24, 2024 - 11 AM - 1 PM', time: '11 AM - 1 PM' },
+  ]);
+  const [partialStartTime, setPartialStartTime] = useState('11:00 AM');
+  const [partialEndTime, setPartialEndTime] = useState('1:00 PM');
+  const [selectedDay, setSelectedDay] = useState<string | null>('Monday');
+  const [editingStartTime, setEditingStartTime] = useState('9:00 AM');
+  const [editingEndTime, setEditingEndTime] = useState('7:00 PM');
 
   const toggleDay = (day: string) => {
     setBusinessHours((prev) => ({
@@ -44,19 +51,19 @@ export default function BookingsSetupWizard() {
         ...prev[day as keyof typeof prev],
         enabled: !prev[day as keyof typeof prev].enabled,
       },
-    }))
-  }
+    }));
+  };
 
   const handleDayClick = (day: string) => {
     if (businessHours[day as keyof typeof businessHours].enabled) {
-      setSelectedDay(day)
-      const dayHours = businessHours[day as keyof typeof businessHours]
-      setEditingStartTime(dayHours.start)
-      setEditingEndTime(dayHours.end)
+      setSelectedDay(day);
+      const dayHours = businessHours[day as keyof typeof businessHours];
+      setEditingStartTime(dayHours.start);
+      setEditingEndTime(dayHours.end);
     }
-  }
+  };
 
-  const handleSaveHours = () => {
+  const _handleSaveHours = () => {
     if (selectedDay) {
       setBusinessHours((prev) => ({
         ...prev,
@@ -65,48 +72,56 @@ export default function BookingsSetupWizard() {
           start: editingStartTime,
           end: editingEndTime,
         },
-      }))
+      }));
     }
-  }
+  };
 
-  const handleCancelHours = () => {
+  const _handleCancelHours = () => {
     if (selectedDay) {
-      const dayHours = businessHours[selectedDay as keyof typeof businessHours]
-      setEditingStartTime(dayHours.start)
-      setEditingEndTime(dayHours.end)
+      const dayHours = businessHours[selectedDay as keyof typeof businessHours];
+      setEditingStartTime(dayHours.start);
+      setEditingEndTime(dayHours.end);
     }
-  }
+  };
 
   // Generate time options (12-hour format with 30-minute intervals)
   const generateTimeOptions = () => {
-    const times = []
+    const times = [];
     // AM hours
     for (let hour = 1; hour <= 11; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const minuteStr = minute === 0 ? "00" : minute.toString()
-        times.push(`${hour}:${minuteStr} AM`)
+        const minuteStr = minute === 0 ? '00' : minute.toString();
+        times.push(`${hour}:${minuteStr} AM`);
       }
     }
     // 12 PM
-    times.push("12:00 PM")
-    times.push("12:30 PM")
+    times.push('12:00 PM');
+    times.push('12:30 PM');
     // PM hours
     for (let hour = 1; hour <= 11; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const minuteStr = minute === 0 ? "00" : minute.toString()
-        times.push(`${hour}:${minuteStr} PM`)
+        const minuteStr = minute === 0 ? '00' : minute.toString();
+        times.push(`${hour}:${minuteStr} PM`);
       }
     }
-    return times
-  }
+    return times;
+  };
 
-  const timeOptions = generateTimeOptions()
+  const timeOptions = generateTimeOptions();
 
   const removeBlackoutDate = (index: number) => {
-    setBlackoutDates((prev) => prev.filter((_, i) => i !== index))
-  }
+    setBlackoutDates((prev) => prev.filter((_, i) => i !== index));
+  };
 
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
 
   return (
     <div className="flex h-screen bg-background">
@@ -116,7 +131,9 @@ export default function BookingsSetupWizard() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#F0F1F2] h-[80px] px-[40px] py-[22px]">
           <div>
-            <h1 className="text-3xl font-medium text-[#2D3035]">Bookings setup</h1>
+            <h1 className="text-3xl font-medium text-[#2D3035]">
+              Bookings setup
+            </h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -126,7 +143,9 @@ export default function BookingsSetupWizard() {
                 <div className="h-[7px] w-12 bg-[#D1D4D7] rounded-r"></div>
               </div>
             </div>
-            <span className="text-[10px] leading-[14px] font-medium uppercase align-middle font-label text-[#2D3035] whitespace-nowrap">STEP 1 / 3</span>
+            <span className="text-[10px] leading-[14px] font-medium uppercase align-middle font-label text-[#2D3035] whitespace-nowrap">
+              STEP 1 / 3
+            </span>
             <ButtonPair primaryLabel="Next" secondaryLabel="Cancel" />
           </div>
         </div>
@@ -136,18 +155,28 @@ export default function BookingsSetupWizard() {
             <div className="lg:col-span-2 space-y-8">
               {/* Business Details */}
               <Card className="py-0 mb-[50px] gap-0 border-0 shadow-none">
-                <h2 className="mb-5 text-[#2D3035] font-medium text-[23px] leading-[28px] tracking-[-1%]">Business details</h2>
+                <h2 className="mb-5 text-[#2D3035] font-medium text-[23px] leading-[28px] tracking-[-1%]">
+                  Business details
+                </h2>
 
                 <div className="">
-                  <label className="block text-[16px] leading-[22px] font-medium mb-3 text-[#2D3035]">
+                  <label
+                    htmlFor="service-type-select"
+                    className="block text-[16px] leading-[22px] font-medium mb-3 text-[#2D3035]"
+                  >
                     What type of service do you offer?
                   </label>
                   <Select value={serviceType} onValueChange={setServiceType}>
-                    <SelectTrigger className="w-full text-[#626974] text-[16px] leading-[22px] font-medium">
+                    <SelectTrigger
+                      id="service-type-select"
+                      className="w-full text-[#626974] text-[16px] leading-[22px] font-medium"
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="text-[#626974] text-[16px] leading-[22px] font-medium">
-                      <SelectItem value="hair-salon">Hair salon - Barbershop - etc</SelectItem>
+                      <SelectItem value="hair-salon">
+                        Hair salon - Barbershop - etc
+                      </SelectItem>
                       <SelectItem value="fitness">Fitness Studio</SelectItem>
                       <SelectItem value="consulting">Consulting</SelectItem>
                     </SelectContent>
@@ -157,33 +186,55 @@ export default function BookingsSetupWizard() {
 
               {/* Business Hours */}
               <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
-                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">Your business hours</h2>
-                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">When can clients book with you?</p>
+                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">
+                  Your business hours
+                </h2>
+                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">
+                  When can clients book with you?
+                </p>
 
                 <div className="space-y-0">
                   {days.map((day) => (
                     <div
                       key={day}
-                      className={`flex items-center justify-between py-4 px-0 border-b border-border last:border-b-0 ${businessHours[day as keyof typeof businessHours].enabled ? "cursor-pointer" : ""
-                        }`}
+                      role="button"
+                      tabIndex={0}
+                      className={`flex items-center justify-between py-4 px-0 border-b border-border last:border-b-0 ${
+                        businessHours[day as keyof typeof businessHours].enabled
+                          ? 'cursor-pointer'
+                          : ''
+                      }`}
                       onClick={() => handleDayClick(day)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleDayClick(day);
+                        }
+                      }}
                     >
                       <div className="flex items-center gap-4 flex-1">
                         <Switch
-                          checked={businessHours[day as keyof typeof businessHours].enabled}
+                          checked={
+                            businessHours[day as keyof typeof businessHours]
+                              .enabled
+                          }
                           onCheckedChange={() => toggleDay(day)}
                           className="data-[state=checked]:bg-[#072AC8]"
                           onClick={(e) => e.stopPropagation()}
                         />
-                        <span className="font-medium text-[#2D3035] text-sm">{day}</span>
+                        <span className="font-medium text-[#2D3035] text-sm">
+                          {day}
+                        </span>
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="text-sm text-muted-foreground min-w-max">
-                          {businessHours[day as keyof typeof businessHours].enabled
+                          {businessHours[day as keyof typeof businessHours]
+                            .enabled
                             ? `${businessHours[day as keyof typeof businessHours].start} - ${businessHours[day as keyof typeof businessHours].end}`
-                            : "Closed"}
+                            : 'Closed'}
                         </span>
-                        {businessHours[day as keyof typeof businessHours].enabled && (
+                        {businessHours[day as keyof typeof businessHours]
+                          .enabled && (
                           <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
                         )}
                       </div>
@@ -194,18 +245,30 @@ export default function BookingsSetupWizard() {
 
               {/* Blackout Dates & Time */}
               <Card className="py-0 mb-[50px] gap-0 border-0 shadow-none">
-                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">Blackout dates & time</h2>
-                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">Dates you're not available like holidays and special occasions</p>
-
+                <h2 className="text-[16px] leading-[22px] font-medium mb-2 text-[#2D3035]">
+                  Blackout dates & time
+                </h2>
+                <p className="text-[12px] text-[#626974] font-medium mb-[15px]">
+                  Dates you're not available like holidays and special occasions
+                </p>
 
                 <div className="mb-6 p-4 bg-blue-50 rounded-lg">
                   <div className="flex items-center justify-between">
-                    <button className="text-[#072AC8] font-medium text-[12px] hover:text-blue-700 cursor-pointer">
+                    <button
+                      type="button"
+                      className="text-[#072AC8] font-medium text-[12px] hover:text-blue-700 cursor-pointer"
+                    >
                       SET DATES
                     </button>
-                    <Icon icon="/business-assets/icons/arrow-right.svg" alt="Arrow Right" />
+                    <Icon
+                      icon="/business-assets/icons/arrow-right.svg"
+                      alt="Arrow Right"
+                    />
                   </div>
-                  <button className="text-[#072AC8] font-medium text-[18px] hover:text-blue-700 cursor-pointer">
+                  <button
+                    type="button"
+                    className="text-[#072AC8] font-medium text-[18px] hover:text-blue-700 cursor-pointer"
+                  >
                     Select times
                   </button>
                 </div>
@@ -213,11 +276,12 @@ export default function BookingsSetupWizard() {
                 <div className="flex flex-wrap gap-2">
                   {blackoutDates.map((item, index) => (
                     <div
-                      key={index}
+                      key={item.date}
                       className="inline-flex items-center gap-2 bg-[#F9FAFC] px-3 py-1 text-sm rounded-full border border-[#D1D4D7]"
                     >
                       <span className="text-[#000000]">{item.date}</span>
                       <button
+                        type="button"
                         onClick={() => removeBlackoutDate(index)}
                         className="text-muted-foreground hover:text-[#2D3035] cursor-pointer"
                       >
@@ -232,15 +296,24 @@ export default function BookingsSetupWizard() {
             {/* Right Column - Day Setup & Calendar */}
             <div className="space-y-8">
               {/* Day Setup */}
-              {selectedDay && businessHours[selectedDay as keyof typeof businessHours].enabled ? (
+              {selectedDay &&
+              businessHours[selectedDay as keyof typeof businessHours]
+                .enabled ? (
                 <Card className="p-[25px] mb-[18px] gap-0 border-0 shadow-none bg-[#F9FAFC]">
                   <div className="mb-[30px]">
-                    <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">{selectedDay}</h2>
-                    <p className="text-[12px] text-[#626974] font-medium">Set opening and closing hours</p>
+                    <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">
+                      {selectedDay}
+                    </h2>
+                    <p className="text-[12px] text-[#626974] font-medium">
+                      Set opening and closing hours
+                    </p>
                   </div>
 
                   <div className="flex gap-3 mb-[20px]">
-                    <Select value={editingStartTime} onValueChange={setEditingStartTime}>
+                    <Select
+                      value={editingStartTime}
+                      onValueChange={setEditingStartTime}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select start time" />
                       </SelectTrigger>
@@ -253,7 +326,10 @@ export default function BookingsSetupWizard() {
                       </SelectContent>
                     </Select>
 
-                    <Select value={editingEndTime} onValueChange={setEditingEndTime}>
+                    <Select
+                      value={editingEndTime}
+                      onValueChange={setEditingEndTime}
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select end time" />
                       </SelectTrigger>
@@ -267,12 +343,22 @@ export default function BookingsSetupWizard() {
                     </Select>
                   </div>
                   <div className="border-b border-[#F0F1F2]" />
-                  <ButtonPair className="mt-[20px]" primaryLabel="Save" secondaryLabel="Cancel" />
+                  <ButtonPair
+                    className="mt-[20px]"
+                    primaryLabel="Save"
+                    secondaryLabel="Cancel"
+                  />
                 </Card>
               ) : (
                 <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
-                  <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">Select a day</h2>
-                  <p className="text-[12px] text-[#626974] font-medium mb-[15px]"> Click on an enabled day in the business hours section to set its opening and closing hours.</p>
+                  <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">
+                    Select a day
+                  </h2>
+                  <p className="text-[12px] text-[#626974] font-medium mb-[15px]">
+                    {' '}
+                    Click on an enabled day in the business hours section to set
+                    its opening and closing hours.
+                  </p>
                 </Card>
               )}
 
@@ -294,19 +380,28 @@ export default function BookingsSetupWizard() {
                 <div className="flex items-start gap-3 mb-4">
                   <Checkbox
                     checked={partialAvailabilityEnabled}
-                    onCheckedChange={(checked) => setPartialAvailabilityEnabled(!!checked)}
+                    onCheckedChange={(checked) =>
+                      setPartialAvailabilityEnabled(!!checked)
+                    }
                     className="mt-1"
                   />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-[#2D3035]">Set partial availability</h4>
-                    <p className="text-sm text-muted-foreground">Block out time on a specific day</p>
+                    <h4 className="font-semibold text-[#2D3035]">
+                      Set partial availability
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Block out time on a specific day
+                    </p>
                   </div>
                 </div>
 
                 {partialAvailabilityEnabled && (
                   <div className="space-y-4">
                     <div className="flex gap-3">
-                      <Select value={partialStartTime} onValueChange={setPartialStartTime}>
+                      <Select
+                        value={partialStartTime}
+                        onValueChange={setPartialStartTime}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue />
                         </SelectTrigger>
@@ -318,7 +413,10 @@ export default function BookingsSetupWizard() {
                         </SelectContent>
                       </Select>
 
-                      <Select value={partialEndTime} onValueChange={setPartialEndTime}>
+                      <Select
+                        value={partialEndTime}
+                        onValueChange={setPartialEndTime}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue />
                         </SelectTrigger>
@@ -332,7 +430,9 @@ export default function BookingsSetupWizard() {
                     </div>
 
                     <div className="">
-                      <p className="text-sm font-medium text-[#2D3035]">November 24</p>
+                      <p className="text-sm font-medium text-[#2D3035]">
+                        November 24
+                      </p>
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-sm text-muted-foreground">
                           {partialStartTime} - {partialEndTime}
@@ -356,5 +456,5 @@ export default function BookingsSetupWizard() {
         </div>
       </main>
     </div>
-  )
+  );
 }

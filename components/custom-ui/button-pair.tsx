@@ -1,17 +1,17 @@
-import { ReactNode } from "react"
-import { ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ChevronRight } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
 
 type ButtonPairProps = {
-  primaryLabel: string
-  secondaryLabel: string
-  onPrimary?: () => void
-  onSecondary?: () => void
-  primaryIcon?: ReactNode
-  className?: string
-  primaryClassName?: string
-  secondaryClassName?: string
-}
+  primaryLabel: string;
+  secondaryLabel: string;
+  onPrimary?: () => void;
+  onSecondary?: () => void;
+  primaryIcon?: ReactNode;
+  className?: string;
+  primaryClassName?: string;
+  secondaryClassName?: string;
+};
 
 /**
  * Reusable paired buttons (secondary + primary).
@@ -24,9 +24,9 @@ export function ButtonPair({
   onPrimary,
   onSecondary,
   primaryIcon,
-  className = "",
-  primaryClassName = "",
-  secondaryClassName = "",
+  className = '',
+  primaryClassName = '',
+  secondaryClassName = '',
 }: ButtonPairProps) {
   return (
     <div className={`flex gap-5 ${className}`}>
@@ -45,6 +45,5 @@ export function ButtonPair({
         {primaryIcon ?? <ChevronRight className="h-4 w-4" />}
       </Button>
     </div>
-  )
+  );
 }
-
