@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { ChevronRight, X, Clock } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -26,6 +25,7 @@ export default function BookingsSetupWizard() {
   const [selectedDate, setSelectedDate] = useState(24)
   const [selectedMonth, setSelectedMonth] = useState(11) // November
   const [selectedYear, setSelectedYear] = useState(2024)
+  const [todayDate] = useState(22) // Add todayDate state for calendar styling
   const [partialAvailabilityEnabled, setPartialAvailabilityEnabled] = useState(false)
   const [blackoutDates, setBlackoutDates] = useState([
     { date: "Nov 24, 2024", time: null },
@@ -233,11 +233,13 @@ export default function BookingsSetupWizard() {
             <div className="space-y-8">
               {/* Day Setup */}
               {selectedDay && businessHours[selectedDay as keyof typeof businessHours].enabled ? (
-                <Card className="p-6">
-                  <h3 className="text-lg font-bold mb-1 text-[#2D3035]">{selectedDay}</h3>
-                  <p className="text-sm text-muted-foreground mb-6">Set opening and closing hours</p>
+                <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
+                  <div className="mb-[30px]">
+                    <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">{selectedDay}</h2>
+                    <p className="text-[12px] text-[#626974] font-medium">Set opening and closing hours</p>
+                  </div>
 
-                  <div className="flex gap-3 mb-6">
+                  <div className="flex gap-3 mb-[20px]">
                     <Select value={editingStartTime} onValueChange={setEditingStartTime}>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select start time" />
@@ -264,14 +266,13 @@ export default function BookingsSetupWizard() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <ButtonPair primaryLabel="Save" secondaryLabel="Cancel" />
+                  <div className="border-b border-[#F0F1F2]" />
+                  <ButtonPair className="mt-[20px]" primaryLabel="Save" secondaryLabel="Cancel" />
                 </Card>
               ) : (
-                <Card className="p-6">
-                  <h3 className="text-lg font-bold mb-1 text-[#2D3035]">Select a day</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Click on an enabled day in the business hours section to set its opening and closing hours.
-                  </p>
+                <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
+                  <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">Select a day</h2>
+                  <p className="text-[12px] text-[#626974] font-medium mb-[15px]"> Click on an enabled day in the business hours section to set its opening and closing hours.</p>
                 </Card>
               )}
 
@@ -281,6 +282,7 @@ export default function BookingsSetupWizard() {
                   month={selectedMonth}
                   year={selectedYear}
                   selectedDate={selectedDate}
+                  todayDate={todayDate}
                   onDateSelect={setSelectedDate}
                   onMonthChange={setSelectedMonth}
                   onYearChange={setSelectedYear}

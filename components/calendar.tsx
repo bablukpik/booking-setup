@@ -7,6 +7,7 @@ interface CalendarProps {
   month: number
   year: number
   selectedDate: number
+  todayDate: number
   onDateSelect: (date: number) => void
   onMonthChange: (month: number) => void
   onYearChange: (year: number) => void
@@ -29,7 +30,7 @@ const monthNames = [
 
 const daysOfWeek = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 
-export default function Calendar({ month, year, selectedDate, onDateSelect, onMonthChange }: CalendarProps) {
+export default function Calendar({ month, year, selectedDate, todayDate, onDateSelect, onMonthChange }: CalendarProps) {
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const daysInPrevMonth = new Date(year, month, 0).getDate()
@@ -41,7 +42,7 @@ export default function Calendar({ month, year, selectedDate, onDateSelect, onMo
     days.push({
       date: daysInPrevMonth - i,
       isCurrentMonth: false,
-      isSelected: false,
+      isSelected: i === selectedDate,
     })
   }
 
@@ -95,26 +96,30 @@ export default function Calendar({ month, year, selectedDate, onDateSelect, onMo
         {daysOfWeek.map((day) => (
           <div
             key={day}
-            className="text-center text-xs font-medium text-muted-foreground h-8 flex items-center justify-center"
+            className="text-center text-xs font-medium text-[#71717A] h-8 flex items-center justify-center"
           >
             {day}
           </div>
         ))}
       </div>
 
-      {/* Calendar grid - adjusted spacing and styling for better match */}
-      <div className="grid grid-cols-7 gap-1">
+      {/* Calendar grid */}
+      <div className="grid grid-cols-7 gap-2">
         {days.map((day, index) => (
           <button
             key={index}
             onClick={() => day.isCurrentMonth && onDateSelect(day.date)}
-            className={`h-8 w-8 flex items-center justify-center rounded text-sm font-medium transition-colors cursor-pointer ${
-              day.isSelected
-                ? "bg-blue-600 text-white"
+            className={`h-8 w-8 flex items-center justify-center text-sm text-[#2D3035] font-medium transition-all cursor-pointer ${day.isSelected && day.isCurrentMonth
+              ? // Selected date always shows filled blue background (including if today is selected)
+              "bg-[#072AC8] text-white rounded-full"
+              : day.isCurrentMonth && day.date === todayDate
+                ? // Today shows border only when NOT selected
+                "border border-[#000000] rounded-full"
                 : day.isCurrentMonth
-                  ? "text-foreground hover:bg-gray-100"
-                  : "text-muted-foreground"
-            }`}
+                  ? "hover:bg-gray-100 rounded-full"
+                  : "text-[#71717A]"
+              }`}
+            disabled={!day.isCurrentMonth}
           >
             {day.date}
           </button>
