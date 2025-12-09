@@ -114,7 +114,7 @@ export default function BookingsSetupWizard() {
 
       <main className="flex-1 overflow-auto">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between border-b border-[#F0F1F2] h-[80px] px-[40px] py-[22px]">
+        <div className="flex items-center justify-between border-b border-[#F0F1F2] h-[80px] px-[40px] py-[22px]">
           <div>
             <h1 className="text-3xl font-medium text-[#2D3035]">Bookings setup</h1>
           </div>
@@ -131,7 +131,7 @@ export default function BookingsSetupWizard() {
           </div>
         </div>
         <div className="min-h-screen p-8">
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-50 lg:grid-cols-3">
             {/* Left Column - Form */}
             <div className="lg:col-span-2 space-y-8">
               {/* Business Details */}
@@ -233,7 +233,7 @@ export default function BookingsSetupWizard() {
             <div className="space-y-8">
               {/* Day Setup */}
               {selectedDay && businessHours[selectedDay as keyof typeof businessHours].enabled ? (
-                <Card className="p-0 mb-[50px] gap-0 border-0 shadow-none">
+                <Card className="p-[25px] mb-[18px] gap-0 border-0 shadow-none bg-[#F9FAFC]">
                   <div className="mb-[30px]">
                     <h2 className="text-[20px] leading-[22px] font-medium mb-2 text-[#2D3035]">{selectedDay}</h2>
                     <p className="text-[12px] text-[#626974] font-medium">Set opening and closing hours</p>
@@ -277,7 +277,7 @@ export default function BookingsSetupWizard() {
               )}
 
               {/* Calendar */}
-              <Card className="p-6">
+              <Card className="p-[25px] mb-[18px] gap-0 border-0 shadow-none bg-[#F9FAFC]">
                 <Calendar
                   month={selectedMonth}
                   year={selectedYear}
@@ -290,7 +290,7 @@ export default function BookingsSetupWizard() {
               </Card>
 
               {/* Partial Availability */}
-              <Card className="p-6">
+              <Card className="p-0 gap-0 border-0 shadow-none">
                 <div className="flex items-start gap-3 mb-4">
                   <Checkbox
                     checked={partialAvailabilityEnabled}
@@ -331,7 +331,7 @@ export default function BookingsSetupWizard() {
                       </Select>
                     </div>
 
-                    <div className="pt-2 border-t border-border">
+                    <div className="">
                       <p className="text-sm font-medium text-[#2D3035]">November 24</p>
                       <div className="flex items-center gap-2 mt-1">
                         <p className="text-sm text-muted-foreground">
@@ -346,6 +346,8 @@ export default function BookingsSetupWizard() {
                   </div>
                 )}
               </Card>
+
+              <div className="border-b border-[#F0F1F2]" />
 
               {/* Bottom Save Button */}
               <ButtonPair primaryLabel="Save" secondaryLabel="Cancel" />
