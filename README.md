@@ -1,4 +1,4 @@
-# Booking Setup Application
+# Booking Setup 
 
 A modern Next.js application for managing business bookings, business hours, and availability settings. Built with React, TypeScript, and Tailwind CSS.
 
